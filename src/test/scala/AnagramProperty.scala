@@ -1,5 +1,5 @@
 import org.scalacheck.Gen
-import org.scalatest.ShouldMatchers
+import org.scalatest.{PropSpec, FunSuite, ShouldMatchers}
 import org.scalatest.prop.PropertyChecks
 
 /**
@@ -8,20 +8,31 @@ import org.scalatest.prop.PropertyChecks
  * Time: 8:45 PM
  */
 
-class AnagramProperty extends PropertyChecks with ShouldMatchers {
+class AnagramProperty extends PropSpec with PropertyChecks with ShouldMatchers {
   val words = Gen.oneOf(List("pool", "loco", "cool", "stain", "satin", "pretty", "nice", "loop", "cat", "dog", "god", "tac"))
   val inputs = for {
     s <- Gen.chooseNum(0, 12)
     n <- Gen.listOfN(s, words)
   } yield n
-  
-  forAll(inputs) {
-    words =>
-      val result = anagrams.apply(words).toList
-      1 should be (2)
-      whenever(result.nonEmpty) {
 
-        result.foreach(anagram => words.indexOf(anagram) should be <= (result.indexOf(anagram)))
-      }
+  property("anagram order") {
+    forAll(inputs) {
+      words =>
+        val result = anagrams.apply(words).toList
+        whenever(result.nonEmpty) {
+          result.foreach(anagram =>
+            withClue(s"input: $words result: $result anagram: $anagram") {
+              words.indexOf(anagram) should be >= (result.indexOf(anagram))
+            })
+        }
+    }
+  }
+
+  property("no duplicates") {
+    forAll(inputs) {
+      words =>
+        val result = anagrams.apply(words).toList
+        result.size should be (result.toSet.size)
+    }
   }
 }

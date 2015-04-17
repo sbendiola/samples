@@ -12,24 +12,13 @@ package object anagrams {
   //    ["pool", "loco", "cool", "stain", "satin", "loop"]
 
   def apply(words: Iterable[String]): Iterable[String] = {
-
-    @tailrec
-    def solve(words: List[String], byChars: Map[Set[Char], List[String]] = Map.empty, acc: List[String] = Nil): List[String] = {
-      words match {
-        case Nil =>
-          acc
-
-        case word :: rest =>
-          val key: Set[Char] = word.toSet
-          byChars.getOrElse(key, Nil) match {
-            case Nil =>
-              solve(rest, byChars.updated(key, word :: Nil), acc)
-            case items =>
-              //add all items not already added
-              solve(rest, byChars.updated(key, word :: Nil), items.reverse.filterNot(acc.contains) ++ acc)
-          }
-      }
-    }
-    solve(words.toList)
+    val wordList = words.toList
+    val byChars = wordList.groupBy(_.toSet)
+    var anagrams = Set[String]()
+    for {
+      (_, group) <- byChars if group.size > 1
+      w <- group if !anagrams.contains(w)
+    } anagrams += w
+    anagrams.toList.sortBy(wordList.indexOf)
   }
 }
