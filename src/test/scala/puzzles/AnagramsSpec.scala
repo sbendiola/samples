@@ -1,3 +1,5 @@
+package puzzles
+
 import org.scalatest.{FlatSpec, ShouldMatchers}
 
 /**

@@ -1,5 +1,10 @@
-import scala.annotation.tailrec
+package puzzles
 
+/**
+ * User: sbendiola
+ * Date: 4/16/15
+ * Time: 11:45 PM
+ */
 package object anagrams {
   //  from http://nafiulis.me/the-deceptive-anagram-question.html
   //

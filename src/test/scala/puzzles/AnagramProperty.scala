@@ -1,6 +1,8 @@
+package puzzles
+
 import org.scalacheck.Gen
-import org.scalatest.{PropSpec, FunSuite, ShouldMatchers}
 import org.scalatest.prop.PropertyChecks
+import org.scalatest.{PropSpec, ShouldMatchers}
 
 /**
  * User: sbendiola
@@ -9,7 +11,7 @@ import org.scalatest.prop.PropertyChecks
  */
 
 class AnagramProperty extends PropSpec with PropertyChecks with ShouldMatchers {
-  val words = Gen.oneOf(List("pool", "loco", "cool", "stain", "satin", "pretty", "nice", "loop", "cat", "dog", "god", "tac"))
+  val words = Gen.oneOf(List("pool", "loco", "cool", "stain", "satin", "pretty", "nice", "loop", "cat", "dog", "god", "tac", "heaven", "hell", "fido"))
   val inputs = for {
     s <- Gen.chooseNum(0, 12)
     n <- Gen.listOfN(s, words)
