@@ -19,12 +19,10 @@ class AnagramProperty extends PropSpec with PropertyChecks with ShouldMatchers {
     forAll(inputs) {
       words =>
         val result = anagrams.apply(words).toList
-        whenever(result.nonEmpty) {
-          result.foreach(anagram =>
-            withClue(s"input: $words result: $result anagram: $anagram") {
-              words.indexOf(anagram) should be >= (result.indexOf(anagram))
-            })
-        }
+        result.foreach(anagram =>
+          withClue(s"input: $words result: $result anagram: $anagram") {
+            words.indexOf(anagram) should be >= (result.indexOf(anagram))
+          })
     }
   }
 

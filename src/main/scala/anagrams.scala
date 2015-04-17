@@ -15,10 +15,12 @@ package object anagrams {
     val wordList = words.toList
     val byChars = wordList.groupBy(_.toSet)
     var anagrams = Set[String]()
+
     for {
       (_, group) <- byChars if group.size > 1
       w <- group if !anagrams.contains(w)
     } anagrams += w
+
     anagrams.toList.sortBy(wordList.indexOf)
   }
 }
